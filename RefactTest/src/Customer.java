@@ -33,24 +33,7 @@ public class Customer {
 			double thisAmount = 0;
 			Rental each = (Rental)rentals.nextElement();
 			
-			//비디오 종류별 대여료 계산
-			switch (each.getMovie().getPriceCode()) {
-			case Movie.REGULAR:
-				thisAmount += 2;
-				if (each.getDaysRented() > 2)
-					thisAmount += (each.getDaysRented() - 2) * 1.5;
-				break;
-				
-			case Movie.NEW_RELEASE:
-				thisAmount += each.getDaysRented() * 3;
-				break;
-				
-			case Movie.CHILDRENS:
-				thisAmount += 1.5;
-				if (each.getDaysRented() > 3)
-					thisAmount += (each.getDaysRented() - 3) * 1.5;
-				break;
-			}
+			thisAmount = videoTypeCalc(each);
 			
 			//적립 포인트를 1포인트 증가
 			frequentRenterPointers++;
@@ -72,6 +55,29 @@ public class Customer {
 		return result;	
 		
 				
+	}
+
+	private double videoTypeCalc(Rental each) {
+		double thisAmount = 0;
+		//비디오 종류별 대여료 계산
+		switch (each.getMovie().getPriceCode()) {
+		case Movie.REGULAR:
+			thisAmount += 2;
+			if (each.getDaysRented() > 2)
+				thisAmount += (each.getDaysRented() - 2) * 1.5;
+			break;
+			
+		case Movie.NEW_RELEASE:
+			thisAmount += each.getDaysRented() * 3;
+			break;
+			
+		case Movie.CHILDRENS:
+			thisAmount += 1.5;
+			if (each.getDaysRented() > 3)
+				thisAmount += (each.getDaysRented() - 3) * 1.5;
+			break;
+		}
+		return thisAmount;
 	}
 	
 	

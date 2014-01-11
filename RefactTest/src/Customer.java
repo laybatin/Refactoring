@@ -24,8 +24,8 @@ public class Customer {
 	
 	public String statement()
 	{
-		double totalAmout = 0;
-		int frequentRenterPointers = 0;
+		
+		
 		Enumeration<Rental> rentals = _rentals.elements();
 		String result = getName() + " 고객님의 대여 기록\n";
 		
@@ -33,22 +33,45 @@ public class Customer {
 			
 			Rental each = (Rental)rentals.nextElement();			
 			
-			frequentRenterPointers += each.getPoint(each);
+			
 			
 			//이번에 대여하는 비디오 정보와 대여료를 출력
 			result += "\t" + each.getMovie().getTitle()+"\t"+ String.valueOf(each.getCharge(each)) + "\n";
 			
-			//현재까지 누적된 총 대여료
-			totalAmout += each.getCharge(each);
+			
 		}
 		
 		//푸터 행 추가
-		result += "누적 대여료 : " + String.valueOf(totalAmout) + "\n";
-		result += "적립 포인트 : " + String.valueOf(frequentRenterPointers);
+		result += "누적 대여료 : " + String.valueOf(getTotalCharge()) + "\n";
+		result += "적립 포인트 : " + String.valueOf(getTotalFrequentRenterPoints());
 		return result;	
 		
 				
 	}
+
+	private int getTotalFrequentRenterPoints() {
+		int frequentRenterPointers = 0;
+		Enumeration<Rental> rentals = _rentals.elements();
+		while (rentals.hasMoreElements()) {
+			Rental each = (Rental)rentals.nextElement();
+			frequentRenterPointers += each.getPoint(each);
+		}		
+		return frequentRenterPointers;
+	}
+	
+	private double getTotalCharge()
+	{
+		//현재까지 누적된 총 대여료
+		double result = 0;
+		Enumeration<Rental> rentals = _rentals.elements();
+		while (rentals.hasMoreElements()) {
+			Rental each = (Rental)rentals.nextElement();
+			result += each.getCharge(each);
+		}
+		return result;
+	}
+	
+	
 
 	
 
